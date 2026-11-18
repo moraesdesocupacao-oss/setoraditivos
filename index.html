@@ -386,6 +386,54 @@ input,select,textarea{font-family:inherit;font-size:14px;}
   #printArea .preview-doc{border:none;max-height:none;overflow:visible;font-size:12pt;background:#fff;}
 }
 #printArea{display:none;}
+.dropzone{display:flex;align-items:center;gap:14px;padding:18px 20px;border:2px dashed var(--border-strong);border-radius:var(--radius);background:var(--surface-2);cursor:pointer;transition:.15s ease;color:var(--text);}
+.dropzone:hover,.dropzone.over,.dropzone:focus-visible{border-color:var(--text);background:var(--primary-soft);outline:none;}
+.dropzone svg{width:30px;height:30px;flex-shrink:0;}
+.dropzone div{display:flex;flex-direction:column;gap:3px;min-width:0;}
+.dropzone strong{font-weight:900;font-size:15px;}
+.dropzone span{font-size:12.5px;color:var(--text-muted);}
+.dropzone.small{padding:12px 14px;}
+.dropzone .btn{margin-left:auto;}
+.img-thumb{width:84px;height:56px;object-fit:cover;border-radius:8px;border:1px solid var(--border);}
+.import-box{margin-bottom:6px;}
+.home .import-box{margin:0 0 26px;}
+.link-btn{background:none;border:0;padding:8px 2px 0;color:var(--text-muted);font-weight:700;font-size:12.5px;text-decoration:underline;cursor:pointer;}
+.colar-contrato{margin-top:10px;}
+.colar-contrato textarea,.colar-area textarea{width:100%;padding:10px 12px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);font-family:inherit;font-size:13.5px;line-height:1.45;resize:vertical;}
+.colar-acoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.colar-box{margin-bottom:14px;}
+.colar-btn svg{width:16px;height:16px;}
+.colar-area{border:1.5px solid var(--border);border-radius:14px;padding:14px;background:var(--surface-2);}
+.pessoas-res{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;}
+.pessoas-res li{font-size:13px;line-height:1.4;}
+.pessoas-res li span{color:var(--text-muted);font-size:12px;}
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto;}
+.modal{background:var(--surface);color:var(--text);border-radius:18px;max-width:760px;width:100%;padding:22px 24px;box-shadow:var(--shadow-lg);border:1px solid var(--border);}
+.modal.small{max-width:620px;}
+.modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px;}
+.modal-head h3{margin:0;font-size:19px;font-weight:900;}
+.modal h4{margin:20px 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.08em;}
+.modal-foot{display:flex;justify-content:flex-end;gap:10px;margin-top:20px;}
+.rev-campos{display:flex;flex-direction:column;gap:8px;}
+.rev-campo{display:grid;grid-template-columns:20px 150px 1fr;align-items:center;gap:8px;font-size:13px;font-weight:700;}
+.rev-campo input[type=text],.rev-campo input[type=date],.rev-campo select{padding:8px 10px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);font-family:inherit;width:100%;min-width:0;}
+@media (max-width:600px){.rev-campo{grid-template-columns:20px 1fr;}.rev-campo input[data-val]{grid-column:1/-1;}}
+.rev-pessoa{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 12px;border:1px solid var(--border);border-radius:12px;margin-bottom:8px;background:var(--surface-2);flex-wrap:wrap;}
+.rev-pessoa .rev-info{flex:1;min-width:220px;}
+.rev-pessoa select{padding:8px 10px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);font-family:inherit;font-weight:700;}
+.pessoas-res b.invalido{color:var(--danger);font-weight:800;}
+.home .import-box{margin:0 0 26px;}
+.step-body > .import-box{margin-bottom:20px;padding-bottom:18px;border-bottom:1px dashed var(--border);}
+.rev-campo{align-items:start;}
+.rev-campo > input[type=checkbox]{margin-top:10px;}
+.rev-campo > span{padding-top:8px;}
+.rev-campo span small{display:block;font-weight:500;font-size:11.5px;color:var(--text-muted);margin-top:2px;}
+.rev-campo textarea{padding:8px 10px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);font-family:inherit;font-size:13px;width:100%;min-width:0;resize:vertical;}
+.rev-fixo{padding:8px 0;font-weight:800;}
+.aviso-imp{background:rgba(214,138,0,.12);border:1px solid rgba(214,138,0,.45);color:var(--text);border-radius:12px;padding:10px 12px;font-size:12.5px;line-height:1.45;margin:0 0 14px;}
+@media (max-width:600px){.rev-campo textarea,.rev-campo .rev-fixo{grid-column:1/-1;}}
+.resume-bar.imp{border-style:dashed;}
+
 </style>
 </head>
 <body>
@@ -1688,6 +1736,7 @@ const Form = {
 
   // ETAPA: Dados do Contrato
   renderContrato(dados, body) {
+    body.appendChild(ImportUI.painel());
     const grid = document.createElement("div");
     grid.className = "field-grid";
     grid.appendChild(this.campo(dados, "NUMERO_CONTRATO", "Número do contrato", { obrigatorio: true, placeholder: "C.2867" }));
@@ -1738,6 +1787,7 @@ const Form = {
 
   // ETAPA: Dados do Contrato e do Imóvel (Carta de Direito de Preferência)
   renderContratoCarta(dados, body) {
+    body.appendChild(ImportUI.painel());
     const grid = document.createElement("div");
     grid.className = "field-grid";
     grid.appendChild(this.campo(dados, "CIDADE_CARTA", "Cidade da carta", { obrigatorio: true, placeholder: "Bauru/SP" }));
@@ -1768,6 +1818,7 @@ const Form = {
         ? `Nenhum ${rotulo.toLowerCase()} adicionado — tudo bem, este campo é opcional.` : "";
     };
     redraw();
+    body.appendChild(ColarUI.painel(lista, rotulo, redraw));
     body.appendChild(listaEl);
 
     const btnAdd = document.createElement("button");
@@ -2200,6 +2251,7 @@ const Form = {
 
   // ETAPA: Dados do imóvel e da declaração (Renúncia)
   renderContratoRenuncia(dados, body) {
+    body.appendChild(ImportUI.painel());
     const grid = document.createElement("div");
     grid.className = "field-grid";
     grid.appendChild(this.campo(dados, "ENDERECO_IMOVEL", "Endereço completo do imóvel", {
@@ -2371,6 +2423,793 @@ const Form = {
 
   <script>
 /* =========================================================================
+   PARSER.JS — leitura automática de qualificações e de contratos.
+   - Qualificacao.ler(texto): transforma um bloco como
+     "Sra. Ângela ..., Brasileira, Casada, Empresária, portadora da Cédula de
+      Identidade RG nº ..., cadastrada no CPF/MF nº ..., e seu esposo Sr. ..."
+     em uma lista de pessoas (física ou jurídica, com representantes).
+   - Contrato.extrair(texto): procura no contrato as partes (locadores,
+     locatários, fiadores), número, endereço, datas, finalidade e valores.
+   Tudo é heurístico: o resultado sempre passa pela revisão do usuário.
+   ========================================================================= */
+
+const Qualificacao = (() => {
+  const UFS = { "acre": "AC", "alagoas": "AL", "amapá": "AP", "amazonas": "AM", "bahia": "BA", "ceará": "CE", "distrito federal": "DF", "espírito santo": "ES", "goiás": "GO", "maranhão": "MA", "mato grosso do sul": "MS", "mato grosso": "MT", "minas gerais": "MG", "pará": "PA", "paraíba": "PB", "paraná": "PR", "pernambuco": "PE", "piauí": "PI", "rio de janeiro": "RJ", "rio grande do norte": "RN", "rio grande do sul": "RS", "rondônia": "RO", "roraima": "RR", "santa catarina": "SC", "são paulo": "SP", "sergipe": "SE", "tocantins": "TO" };
+  const RE_EC = /^(solteir[oa]|casad[oa]|divorciad[oa]|vi[uú]v[oa]|separad[oa](?: judicialmente)?|desquitad[oa]|uni[aã]o est[aá]vel|convivente(?: em uni[aã]o est[aá]vel)?|amasiad[oa])$/i;
+  const RE_NAC = /^(brasileir[oa](?:\(a\))?|estrangeir[oa]|naturalizad[oa]|portugues[a]?|português|italian[oa]|espanhol[a]?|argentin[oa]|paraguai[oa]?|bolivian[oa]|japones[a]?|japonês|chines[a]?|chinês|american[oa]|norte-american[oa]|alem[aã]o?|alemã|frances[a]?|francês|uruguai[oa]?|venezuelan[oa]|peruan[oa]|colombian[oa]|chilen[oa]|haitian[oa]|angolan[oa]|cuban[oa]|libanes[a]?|libanês|coreano?a?|indian[oa]|nigerian[oa])$/i;
+  const PARTICULAS = /^(de|da|do|das|dos|e|di|del|van|von)$/i;
+  const CPF_PROCURADORA = "387.603.168-02";
+
+  const limpaEsp = (s) => String(s || "").replace(/[ \s]+/g, " ").trim();
+  function titleCase(nome) {
+    nome = limpaEsp(nome);
+    if (!nome) return nome;
+    const letras = nome.replace(/[^A-Za-zÀ-ÿ]/g, "");
+    const maius = letras && letras === letras.toUpperCase();
+    if (!maius) return nome;
+    return nome.toLowerCase().split(" ").map((w, i) => (i > 0 && PARTICULAS.test(w)) ? w : w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+  }
+  function fmtCPF(s) {
+    const d = String(s || "").replace(/\D/g, "");
+    return d.length === 11 ? d.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4") : limpaEsp(s);
+  }
+  function fmtCNPJ(s) {
+    const d = String(s || "").replace(/\D/g, "");
+    return d.length === 14 ? d.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5") : limpaEsp(s);
+  }
+  /** "Bauru, Estado de São Paulo" -> "Bauru/SP"; "Bauru - SP" -> "Bauru/SP". */
+  /** Estado civil com erro de digitação no contrato ("Casasa" → "Casada"). */
+  function ecAproximado(t) {
+    const w = String(t).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+    if (w.length < 5 || /\s/.test(w)) return "";
+    const C = { solteiro: "Solteiro", solteira: "Solteira", casado: "Casado", casada: "Casada", divorciado: "Divorciado", divorciada: "Divorciada", viuvo: "Viúvo", viuva: "Viúva", separado: "Separado", separada: "Separada" };
+    const dist = (a, b) => { const d = Array.from({ length: a.length + 1 }, (_, i) => [i]); for (let j = 1; j <= b.length; j++) d[0][j] = j;
+      for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); return d[a.length][b.length]; };
+    for (const k in C) if (dist(w, k) <= 1) return C[k];
+    return "";
+  }
+  function normCidade(c) {
+    c = limpaEsp(c).replace(/,?\s*(?:e\s+)?(?:residentes?|domiciliad[oa]s?)\b.*$/i, "").replace(/[.;,]+$/, "");
+    // endereço completo: fica só com a cidade ("..., CEP ..., na cidade de São Paulo/SP")
+    const mc = c.match(/(?:^|\s)cidade\s+(?:de\s+)?([^,]+(?:,\s*(?:no\s+)?Estado\s+d[eo]\s+.+)?)$/i);
+    if (mc) c = mc[1].trim();
+    let m = c.match(/^(.+?),?\s+(?:no\s+)?Estado\s+d[eo]\s+.*?\/([A-Z]{2})$/);
+    if (m) return m[1].trim() + "/" + m[2];
+    m = c.match(/^(.+?),?\s+(?:no\s+)?Estado\s+d[eo]\s+([A-Z]{2})$/);
+    if (m) return m[1].trim() + "/" + m[2];
+    m = c.match(/^(.+?),?\s+(?:no\s+)?Estado\s+d[eo]\s+(.+)$/i);
+    if (m && UFS[m[2].toLowerCase()]) return m[1].trim() + "/" + UFS[m[2].toLowerCase()];
+    m = c.match(/^(.+?)\s*[-–]\s*([A-Z]{2})$/);
+    if (m) return m[1].trim() + "/" + m[2];
+    return c;
+  }
+  function generoPorTexto(t) {
+    return /\b(portadora|cadastrada|inscrita|domiciliada|brasileira|estrangeira|casada|solteira|divorciada|viúva|separada)\b/i.test(t) ? "F" : "M";
+  }
+
+  /** Lê os campos de uma pessoa física a partir do seu trecho. */
+  function lerPF(seg, generoTitulo) {
+    const p = { isPJ: false, genero: generoTitulo || "", nome: "", nacionalidade: "", estadoCivil: "", profissao: "", rg: "", cpf: "", cidadeUf: "" };
+    let s = seg;
+    // nome: até a primeira vírgula
+    const iv = s.indexOf(",");
+    p.nome = titleCase((iv >= 0 ? s.slice(0, iv) : s).replace(/^(?:e\s+)?(?:(?:seu|sua)\s+(?:esposo|esposa|marido|mulher|c[oô]njuge|companheir[oa])\s+)?/i, ""));
+    const resto = iv >= 0 ? s.slice(iv + 1) : "";
+    // tokens antes dos documentos
+    const corte = resto.search(/\b(portador|portadora|cadastrad|inscrit|residente|domiciliad|RG\b|R\.G\.|C[ée]dula|CPF|CNH|nascid|filh[oa] de)/i);
+    const qual = (corte >= 0 ? resto.slice(0, corte) : resto).split(",").map(t => limpaEsp(t)).filter(Boolean);
+    for (const t of qual) {
+      if (!p.nacionalidade && RE_NAC.test(t)) p.nacionalidade = t.charAt(0).toUpperCase() + t.slice(1);
+      else if (!p.estadoCivil && RE_EC.test(t)) p.estadoCivil = t.charAt(0).toUpperCase() + t.slice(1);
+      else if (!p.estadoCivil && ecAproximado(t)) p.estadoCivil = ecAproximado(t);
+      else if (!p.profissao && /^[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ\s'-]{1,60}$/.test(t)) p.profissao = t.charAt(0).toUpperCase() + t.slice(1);
+    }
+    let m = resto.match(/(?:RG|R\.G\.)\.?\s*(?:sob\s+)?(?:n\.?\s*[º°o]?\.?|n[º°])?\s*:?\s*([0-9A-Za-z][^,;]*?)(?=\s*[,;]|\s+(?:e\s+)?(?:cadastrad|inscrit|CPF|residente)|\.\s|$)/i);
+    if (m) p.rg = limpaEsp(m[1]).replace(/^[º°.:\s]+/, "").replace(/[.]$/, "");
+    m = resto.match(/CPF[^0-9]{0,30}?(\d{3}\.?\s?\d{3}\.?\s?\d{3}\s?-?\s?\d{2})/i);
+    if (m) p.cpf = fmtCPF(m[1]);
+    m = resto.match(/(?:residentes?|domiciliad[oa]s?)\s+(?:e\s+domiciliad[oa]s?\s+)?(?:(?:na|no|em|à)\s+)?(?:cidade\s+de\s+)?(?!nesta\b)(.+?)(?=\s*(?:;|,\s*(?:e\s|neste|nesse|de ora|portador|cadastr|inscrit|que\s|doravante|como\s|na qualidade))|\.\s|\.$|$)/i);
+    if (m) p.cidadeUf = normCidade(m[1]);
+    // gênero: tratamento (Sr./Sra.) prevalece, salvo quando o texto o contradiz claramente
+    const f = (seg.match(/\b(portadora|cadastrada|inscrita|domiciliada|brasileira|estrangeira|casada|solteira|divorciada|viúva|separada)\b/gi) || []).length;
+    const mm = (seg.match(/\b(portador|cadastrado|inscrito|domiciliado|brasileiro|estrangeiro|casado|solteiro|divorciado|viúvo|separado)\b/gi) || []).length;
+    if (!p.genero) p.genero = f > mm ? "F" : "M";
+    else if (p.genero === "M" && f >= 2 && mm === 0) p.genero = "F";
+    else if (p.genero === "F" && mm >= 2 && f === 0) p.genero = "M";
+    return p;
+  }
+
+  /** Lê uma empresa (PJ) a partir do seu trecho (sem os representantes). */
+  function lerPJ(seg) {
+    const p = { isPJ: true, razaoSocial: "", cnpj: "", enderecoSede: "", reps: [] };
+    let m = seg.match(/^(?:a\s+)?empresa\s+(.+?)(?=,\s*(?:pessoa\s+jur|cadastrad|inscrit|com\s+sede|sediad|localizad|CNPJ|neste|nesse)|$)/i);
+    p.razaoSocial = limpaEsp(m ? m[1] : seg.split(",")[0]).replace(/^(?:a\s+)?empresa\s+/i, "");
+    m = seg.match(/CNPJ[^0-9]{0,30}?(\d{2}\.?\d{3}\.?\d{3}\s?\/?\s?\d{4}\s?-?\s?\d{2})/i);
+    if (m) p.cnpj = fmtCNPJ(m[1]);
+    m = seg.match(/(?:localizada|sediada|com\s+(?:sua\s+)?sede|estabelecida)\s+(?:(?:na|no|em|à)\s+)?(.+?)(?=,\s*(?:neste|nesse|representad|inscrit|cadastrad|CNPJ)|\.\s|$)/i);
+    if (m) p.enderecoSede = limpaEsp(m[1]).replace(/^(?:na\s+)?cidade\s+de\s+/i, "").replace(/[,.]$/, "");
+    return p;
+  }
+
+  /**
+   * Divide o texto em trechos, um por pessoa/empresa. Âncoras: tratamento
+   * (Sr./Sra./Dr./Dra.), "empresa", início do texto e, como reforço, pessoas
+   * sem tratamento separadas por ", e Nome Sobrenome," depois de um CPF.
+   */
+  function segmentar(texto) {
+    const t = texto;
+    const ancoras = [];
+    const re = /(?:^|[\s,;(])((?:o|a|ao|à|do|da|pelo|pela)\s+)?(Sr\.|Sra\.|Srta\.|Sr(?=\s)|Sra(?=\s)|Dr\.|Dra\.|Senhor|Senhora)\s*|(?:^|[\s,;(])((?:a|da|pela)\s+)?(empresa)\s+/gi;
+    let m;
+    while ((m = re.exec(t))) {
+      const pos = m.index + (/[\s,;(]/.test(t[m.index]) ? 1 : 0);
+      const titulo = m[2] || m[4];
+      ancoras.push({ pos, titulo, fimTitulo: m.index + m[0].length });
+    }
+    // pessoas sem tratamento: "..., CPF ... 123.456.789-00, e Fulano de Tal, Brasileira" (após um CPF)
+    const reSem = /(\d{3}\.?\d{3}\.?\d{3}-?\d{2})[^,]{0,40}?,?\s+(?:e|(?:em\s+(?:uma\s+)?uni[aã]o\s+est[aá]vel|casad[oa]|convivente)\s+com)\s+(?!(?:o|a|seu|sua|Sr|Sra|empresa)\b)([A-ZÀ-Ý][a-zà-ÿ]+(?:\s+(?:de|da|do|dos|das|e|[A-ZÀ-Ý][a-zà-ÿ]+))+)\s*,/g;
+    while ((m = reSem.exec(t))) {
+      const pos = m.index + m[0].indexOf(m[2]);
+      if (!ancoras.some(a => Math.abs(a.pos - pos) < 8)) ancoras.push({ pos, titulo: "", fimTitulo: pos });
+    }
+    ancoras.sort((a, b) => a.pos - b.pos);
+    if (!ancoras.length || ancoras[0].pos > 3) ancoras.unshift({ pos: 0, titulo: "", fimTitulo: 0 });
+    return ancoras.map((a, i) => {
+      const fim = i + 1 < ancoras.length ? ancoras[i + 1].pos : t.length;
+      return { titulo: a.titulo || "", texto: t.slice(a.fimTitulo, fim) };
+    });
+  }
+
+  /** Nome de pessoa plausível: começa com maiúscula, 2+ palavras, minúsculas só em partículas. */
+  function nomeValido(n) {
+    const w = limpaEsp(n).split(" ");
+    if (w.length < 2 || w.length > 12) return false;
+    return w.every((x, i) => /^[A-ZÀ-Ý]/.test(x) || (i > 0 && PARTICULAS.test(x)));
+  }
+
+  /** Converte um bloco de texto em lista de pessoas. */
+  function ler(textoBruto) {
+    let t = limpaEsp(textoBruto)
+      .replace(/[“”]/g, '"').replace(/n\s*[°º]\s*:?/gi, "nº ").replace(/\s+,/g, ",")
+      .replace(/^(?:NOTIFICAD[OA]S?|LOCADOR(?:A|ES|AS)?|LOCAT[AÁ]RI(?:O|A|OS|AS)|FIADOR(?:A|ES|AS)?|ANUENTES?|OUTORGANTES?|PROPRIET[AÁ]RI[OA]S?)\s*(?:\(\w+\))?\s*:\s*/i, "")
+      .replace(/^(?:Eu|Nós),\s*/i, "")
+      .replace(/^(?:de|do|da)\s+(?=[A-ZÀ-Ý])/, "");
+    const segs = segmentar(t);
+    const pessoas = [];
+    let empresaAtual = null, aguardandoRep = false;
+    let residenciaComum = "";
+    for (const sg of segs) {
+      let s = sg.texto.replace(/^[\s,;]+/, "").replace(/,?\s*(?:em\s+(?:uma\s+)?uni[aã]o\s+est[aá]vel|casad[oa]|convivente)\s+com\s*$/i, "").replace(/(?:^|,?\s+)(?:e|e\s+(?:seu|sua)\s+(?:esposo|esposa|marido|mulher|c[oô]njuge|companheir[oa])|e\s+o|e\s+a|o|a|pelo|pela|e\s+pelo|e\s+pela)\s*$/i, "").trim();
+      if (!s) continue;
+      if (/^empresa$/i.test(sg.titulo) || /^(?:a\s+)?empresa\s/i.test(s)) {
+        const pj = lerPJ(/^empresa/i.test(sg.titulo) ? "empresa " + s : s);
+        empresaAtual = pj; pessoas.push(pj);
+        aguardandoRep = /representad[oa]/i.test(s);
+        continue;
+      }
+      const g = /^(Sra|Srta|Dra|Senhora)/i.test(sg.titulo) ? "F" : (sg.titulo ? "M" : "");
+      const pf = lerPF(s, g);
+      if (!pf.nome || (!pf.cpf && !pf.rg && !pf.nacionalidade && !pf.estadoCivil && pf.nome.split(" ").length < 2)) continue;
+      if (!nomeValido(pf.nome)) continue;
+      // ignora a procuradora (SDT Moraes / Stéfanno)
+      if (pf.cpf === CPF_PROCURADORA || /mastroianni moraes/i.test(pf.nome)) continue;
+      const m = s.match(/residentes\s+e\s+domiciliad[oa]s\s+(?:(?:na|no|em)\s+)?(?:cidade\s+de\s+)?(.+?)(?=\s*(?:;|,\s*(?:e\s|neste|nesse|de ora|que\s|doravante|como\s|na qualidade))|\.\s|\.$|$)/i);
+      if (m) residenciaComum = normCidade(m[1]);
+      if (empresaAtual && aguardandoRep) empresaAtual.reps.push(pf);
+      else pessoas.push(pf);
+    }
+    // "em uma união estável com": estado civil dos dois, se não informado
+    if (/uni[aã]o\s+est[aá]vel\s+com/i.test(t)) pessoas.forEach(p => { if (!p.isPJ && !p.estadoCivil) p.estadoCivil = "Convivente em União Estável"; });
+    // residência compartilhada ("residentes e domiciliados em ...") e cônjuges sem cidade
+    const todasPF = [];
+    pessoas.forEach(p => { if (p.isPJ) todasPF.push(...p.reps); else todasPF.push(p); });
+    const ultimaCidade = [...todasPF].reverse().find(p => p.cidadeUf);
+    todasPF.forEach(p => { if (!p.cidadeUf) p.cidadeUf = residenciaComum || (ultimaCidade ? ultimaCidade.cidadeUf : ""); });
+    return pessoas;
+  }
+  return { ler, lerPF, lerPJ, titleCase, fmtCPF, fmtCNPJ, normCidade, limpaEsp };
+})();
+
+const Contrato = (() => {
+  const MESES = { janeiro: 1, fevereiro: 2, "março": 3, marco: 3, abril: 4, maio: 5, junho: 6, julho: 7, agosto: 8, setembro: 9, outubro: 10, novembro: 11, dezembro: 12 };
+  const iso = (d, m, y) => `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+  function dataBarraIso(s) {
+    const m = String(s).match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+    return m ? iso(+m[1], +m[2], +m[3]) : "";
+  }
+  function dataExtensoIso(s) {
+    const m = String(s).match(/(\d{1,2})º?\s+de\s+([a-zç]+)\s+de\s+(\d{4})/i);
+    if (!m || !MESES[m[2].toLowerCase()]) return "";
+    return iso(+m[1], MESES[m[2].toLowerCase()], +m[3]);
+  }
+  const PAPEL = [
+    { re: /\bLOCADOR(?:A|ES|AS)?\b/g, papel: "locadores" },
+    { re: /\bLOCAT[AÁ]RI(?:O|A|OS|AS)\b/g, papel: "locatarios" },
+    { re: /\bFIADOR(?:A|ES|AS)?\b|\bFIADORES\b/g, papel: "fiadores" },
+    { re: /\bANUENTES?\b/g, papel: "anuentes" },
+    { re: /\bPROCURADORA\b|\bADMINISTRADORA\b|\bIMOBILI[AÁ]RIA\b/g, papel: "ignorar" },
+    { re: /\b(?:TESTEMUNHAS?|Testemunhas?)\b/g, papel: "ignorar" },
+    { re: /\bINTERVENIENTES?\b/g, papel: "anuentes" },
+    { re: /\bLocador(?:a|es|as)?(?=\s*(?:\(\w+\))?\s*:)/g, papel: "locadores" },
+    { re: /\bLocat[aá]ri(?:o|a|os|as)(?=\s*(?:\(\w+\))?\s*:)/g, papel: "locatarios" },
+    { re: /\bFiador(?:a|es|as)?(?=\s*(?:\(\w+\))?\s*:)/g, papel: "fiadores" },
+  ];
+
+  /** Extrai dados de um contrato já convertido em texto. */
+  function extrairGenerico(textoBruto) {
+    const texto = Qualificacao.limpaEsp(textoBruto);
+    const r = { pessoas: [], numero: "", dataContrato: "", dataInicio: "", dataFim: "", endereco: "", finalidade: "", valorAluguel: "", valorCaucao: "", prazoMeses: "", cidade: "", locadores: [], locatarios: [], fiadores: [], anuentes: [], avisos: [] };
+
+    let m = texto.match(/contrato\s+(?:de\s+loca[cç][aã]o\s+)?(?:(?:residencial|comercial|n[ãa]o\s+residencial)\s+)?(?:sob\s+)?n(?:[º°o.]|úmero)\s*:?\s*(\d{2,6})/i)
+      || texto.match(/\bC\.\s?(\d{3,6})\b/) || texto.match(/\bContrato\s*:?\s*(\d{3,6})\b/i);
+    if (m) r.numero = m[1];
+
+    m = texto.match(/(?:im[óo]vel|unidade)\s+(?:residencial\s+|comercial\s+)?(?:situad[oa]|localizad[oa]|sito|sita)\s+(?:na|no|à|em)\s+(.{8,220}?)(?=,\s*(?:de\s+propriedade|para\s+fins|objeto|destinad|com\s+(?:a\s+)?finalidade|matr[ií]cula|cadastrad|inscrit|doravante|que\s|conforme|firmam|sendo)|,?\s+(?:de|da|do)\s+(?:empresa\b|Sr\.|Sra\.|[A-ZÀ-Ý]{2,}\s|[A-ZÀ-Ý][a-zà-ÿ]+\s+[A-ZÀ-Ý][a-zà-ÿ]+\s*,)|\.\s+(?:[A-ZÁÉÍÓÚ]|CL[ÁA]USULA)|;|$)/i)
+      || texto.match(/IM[ÓO]VEL(?:\s+LOCADO)?\s*:\s*(.{8,220}?)(?=\.\s+[A-Z]|;|$)/)
+      || texto.match(/Im[óo]vel\s+locado\s*:\s*(.{8,220}?)(?=\s+Contrato\b|\.\s+[A-Z]|;|$)/i);
+    if (m) r.endereco = m[1].replace(/\s+/g, " ").replace(/[,.]$/, "").trim();
+    if (/Alberto Segalla/i.test(r.endereco)) r.endereco = "";
+
+    m = texto.match(/finalidade\s+(?:exclusivamente\s+)?(residencial|comercial|n[ãa]o\s+residencial)/i) || texto.match(/loca[cç][aã]o\s+(residencial|comercial|n[ãa]o\s+residencial)/i) || texto.match(/fins?\s+(residenciais|comerciais)/i);
+    if (m) r.finalidade = /comerc|n[ãa]o/i.test(m[1]) ? "COMERCIAL" : "RESIDENCIAL";
+
+    m = texto.match(/(?:in[ií]cio|iniciando(?:-se)?|com\s+in[ií]cio|a\s+partir\s+de|a\s+contar\s+de|vig[eê]ncia\s+de)\D{0,25}?(\d{1,2}\/\d{1,2}\/\d{4})/i);
+    if (m) r.dataInicio = dataBarraIso(m[1]);
+    m = texto.match(/(?:t[ée]rmino|terminando|encerrando(?:-se)?|at[ée]\s+o\s+dia|a)\D{0,20}?(\d{1,2}\/\d{1,2}\/\d{4})/i);
+    if (m && dataBarraIso(m[1]) !== r.dataInicio) r.dataFim = dataBarraIso(m[1]);
+    m = texto.match(/firmado\s+em\s+(\d{1,2}\/\d{1,2}\/\d{4})/i);
+    if (m) r.dataContrato = dataBarraIso(m[1]);
+    if (!r.dataContrato) {
+      // data de assinatura: última data por extenso precedida de cidade ("Bauru, 05 de setembro de 2025")
+      const datas = [...texto.matchAll(/([A-ZÀ-Ý][A-Za-zÀ-ÿ\s]{2,40}?)(?:\/[A-Z]{2})?,\s*(\d{1,2}º?\s+de\s+[a-zçA-ZÇ]+\s+de\s+\d{4})/g)];
+      if (datas.length) {
+        const ult = datas[datas.length - 1];
+        r.dataContrato = dataExtensoIso(ult[2]);
+        r.cidade = ult[1].trim().split(" ").slice(-3).join(" ").replace(/^(?:em|aos)\s+/i, "");
+      }
+    }
+    if (!r.dataContrato) r.dataContrato = r.dataInicio;
+    m = texto.match(/prazo\s+(?:de\s+(?:loca[cç][aã]o|vig[eê]ncia)\s+)?(?:ser[áa]\s+)?de\s+(\d{1,3})\s*\(/i);
+    if (m) r.prazoMeses = m[1];
+    m = texto.match(/aluguel\s+(?:mensal\s+)?(?:[^R$]{0,60})R\$\s*([\d.]+,\d{2})/i);
+    if (m) r.valorAluguel = m[1];
+    m = texto.match(/cau[cç][aã]o[^R$]{0,120}R\$\s*([\d.]+,\d{2})/i);
+    if (m) r.valorCaucao = m[1];
+
+    // ---- Partes: divide o texto pelos papéis (LOCADOR, LOCATÁRIO, FIADOR...) ----
+    // Considera só o início do contrato (qualificação das partes): até a cláusula
+    // do objeto / segunda cláusula; se não houver marcação, os primeiros 45% do texto.
+    let limite = texto.length;
+    const fimPartes = texto.search(/CL[ÁA]USULA\s+(?:SEGUNDA|2\s*[ªa.]|II\b)|\bDO\s+OBJETO\b|CL[ÁA]USULA\s+(?:PRIMEIRA|1\s*[ªa.]|I\b)\s*[-–—:]?\s*D[OA]\s+(?!PARTES)|Cl[áa]usula\s+Segunda/);
+    if (fimPartes > 200) limite = fimPartes;
+    else if (texto.length > 4000) limite = Math.round(texto.length * 0.45);
+    const marcas = [];
+    for (const p of PAPEL) {
+      p.re.lastIndex = 0;
+      let mm;
+      while ((mm = p.re.exec(texto))) marcas.push({ pos: mm.index, fim: mm.index + mm[0].length, papel: p.papel });
+    }
+    marcas.sort((a, b) => a.pos - b.pos);
+    const vistos = new Set();
+    for (let i = 0; i < marcas.length; i++) {
+      const mk = marcas[i];
+      if (mk.papel === "ignorar") continue;
+      if (mk.pos >= limite) break;
+      const fim = Math.min(i + 1 < marcas.length ? marcas[i + 1].pos : texto.length, limite);
+      const trecho = texto.slice(mk.fim, fim);
+      if (!/\d{3}\.?\d{3}\.?\d{3}-?\d{2}|\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}/.test(trecho)) continue;
+      const limpo = trecho.replace(/^\s*(?:\(\w+\))?\s*[:,]?\s*(?:e\s+)?(?:doravante\s+(?:apenas\s+)?(?:assim\s+)?(?:designad[oa]s?|denominad[oa]s?|chamad[oa]s?)\s*,?\s*)?/i, "")
+        .replace(/,?\s*(?:de\s+ora\s+em\s+diante|neste\s+ato)\s+representad[oa]s?\s+pel[oa]\s+sua\s*$/i, "");
+      for (const p of Qualificacao.ler(limpo)) {
+        const chave = p.isPJ ? p.cnpj : p.cpf;
+        if (!chave || vistos.has(chave)) continue;
+        vistos.add(chave);
+        r[mk.papel].push(p);
+        r.pessoas.push({ papel: mk.papel, pessoa: p });
+      }
+    }
+    // nenhum papel identificado: oferece as pessoas encontradas para o usuário classificar
+    if (!r.pessoas.length) {
+      for (const p of Qualificacao.ler(texto.slice(0, limite))) {
+        const chave = p.isPJ ? p.cnpj : p.cpf;
+        if (!chave || vistos.has(chave)) continue;
+        vistos.add(chave);
+        r.pessoas.push({ papel: "", pessoa: p });
+      }
+    }
+    if (!r.locadores.length) r.avisos.push("Não encontrei os locadores — confira ou cole a qualificação.");
+    if (!r.locatarios.length) r.avisos.push("Não encontrei os locatários — confira ou cole a qualificação.");
+    if (!r.endereco) r.avisos.push("Não encontrei o endereço do imóvel.");
+    if (!r.numero) r.avisos.push("Não encontrei o número do contrato.");
+    return r;
+  }
+
+
+  /* ---------- Formato padrão Moraes: RESUMO DESCRITIVO + Cláusula Primeira ---------- */
+  const PAPEL_ROTULO = (rot) => /^locador/i.test(rot) ? "locadores" : /^locat/i.test(rot) ? "locatarios" : /^fiador/i.test(rot) ? "fiadores" : "anuentes";
+  const soDig = (s) => String(s || "").replace(/\D/g, "");
+  const normNome = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z ]/g, " ").replace(/\s+/g, " ").trim();
+
+  /** Corrige artefatos comuns de PDF: "Bauru /SP", "46832895 - 6", "C . 3166". */
+  function normalizarTexto(t) {
+    return String(t || "").replace(/\r/g, "")
+      .replace(/[ \t ]+/g, " ")
+      .replace(/(\d)\s*-\s+(\d)/g, "$1-$2").replace(/(\d)\s+-\s*(\d)/g, "$1-$2")
+      .replace(/([A-Za-zÀ-ÿ])\s*\/\s*([A-Z]{2})\b/g, "$1/$2")
+      .replace(/(\d)\s*\.\s+(\d{3})/g, "$1.$2")
+      .replace(/\bC\s*\.\s*(\d)/g, "C.$1");
+  }
+
+  /** Lê o quadro "RESUMO DESCRITIVO" do início dos contratos Moraes. */
+  function lerResumo(texto) {
+    const i = texto.search(/RESUMO\s+DESCRITIVO/i);
+    if (i < 0) return null;
+    const resto = texto.slice(i);
+    const f = resto.search(/Pelo\s+presente\s+instrumento|Cl[áa]usula\s+Primeira/i);
+    const bloco = resto.slice(0, f > 0 ? f : 2500).replace(/\s+/g, " ");
+    const r = { pessoas: [] };
+    let m = bloco.match(/Objeto\s*:\s*(.+?)\s*(?=Valor\s*:|In[íi]cio\s*:|Prazo\s*:|Locad|Locat|$)/i);
+    if (m) r.endereco = m[1].replace(/\s+([,.])/g, "$1").replace(/\.\s*$/, "").trim();
+    m = bloco.match(/In[íi]cio\s*:\s*(\d{1,2})\/(\d{1,2})\/(\d{4,6})/i);
+    if (m) {
+      if (m[3].length === 4) r.inicio = `${m[3]}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}`;
+      else r.avisoData = `A data de início no contrato está escrita errada ("${m[1]}/${m[2]}/${m[3]}") — confira a data.`;
+    }
+    m = bloco.match(/T[ée]rmino\s*:\s*(\d{1,2}\/\d{1,2}\/\d{4})\b/i); if (m) r.termino = dataBarraIso(m[1]);
+    m = bloco.match(/Valor\s*:\s*R\$\s*([\d.]+,\d{2})/i); if (m) r.valor = m[1];
+    m = bloco.match(/Prazo\s*:\s*(\d{1,3})\s*meses/i); if (m) r.prazo = m[1];
+    m = bloco.match(/Garantia\s*:\s*(.+?)(?=\s+(?:C\.\s?\d|Pasta\s*:|$))/i); if (m) r.garantia = m[1].trim();
+    m = bloco.match(/(?:\bC\.\s?|Pasta\s*:\s*)(\d{3,6})\s*KSI/i) || bloco.match(/\bC\.\s?(\d{3,6})\b/) || bloco.match(/Pasta\s*:\s*(\d{3,6})/i);
+    if (m) r.numero = m[1];
+    const reP = /\b(Locador(?:a|es|as)?|Locat[áa]ri(?:o|a|os|as)|Fiador(?:a|es|as)?|Anuentes?)\s*:\s*(.+?)\s+(CPF|CNPJ)(?:\/MF)?\s*(?:n\.?\s*[º°o]?\.?|nº|n°)?\s*:?\s*(\d[\d.\s\/-]{9,22}\d)/gi;
+    while ((m = reP.exec(bloco))) {
+      const rot = m[1], nome = Qualificacao.titleCase(m[2].replace(/[,;:]+$/, "").trim());
+      const pj = /CNPJ/i.test(m[3]);
+      r.pessoas.push({ papel: PAPEL_ROTULO(rot), nome, doc: pj ? Qualificacao.fmtCNPJ(m[4]) : Qualificacao.fmtCPF(m[4]), pj, genero: /(a|as)$/i.test(rot) ? "F" : "M" });
+    }
+    return r;
+  }
+
+  /** Recorta o texto da "Cláusula Primeira – Das Partes" (até a cláusula seguinte). */
+  function blocoPartes(texto) {
+    const i = texto.search(/Cl[áa]usula\s+(?:Primeira|1\s*[ªa.º]?|I)\s*[-–—:]?\s*Das\s+Partes/i);
+    if (i < 0) return "";
+    const resto = texto.slice(i);
+    const f = resto.slice(30).search(/Cl[áa]usula\s+(?:Segunda|2\s*[ªa.º]?|II)\b|CL[ÁA]USULA\s+SEGUNDA/i);
+    return resto.slice(0, f > 0 ? f + 30 : 6000);
+  }
+
+  /** Extração principal: resumo + qualificação; o método genérico cobre o que faltar. */
+  function extrair(textoBruto) {
+    const texto = normalizarTexto(textoBruto);
+    const plano = Qualificacao.limpaEsp(texto);
+    const resumo = lerResumo(texto);
+    const partes = blocoPartes(plano);
+    // qualificação completa (por papel) a partir da Cláusula Primeira, ou do texto inteiro
+    const gen = extrairGenerico(partes || plano);
+    const geral = partes ? extrairGenerico(plano) : gen;
+    const r = Object.assign({}, geral, { pessoas: [], locadores: [], locatarios: [], fiadores: [], anuentes: [], avisos: [] });
+    // finalidade: frase logo após o resumo ("...Contrato de Locação de Imóvel para Finalidade Comercial")
+    let m = plano.match(/Loca[çc][ãa]o\s+de\s+Im[óo]vel\s+para\s+Finalidade\s+(Residencial|Comercial|N[ãa]o\s+Residencial)/i)
+      || plano.match(/PARA\s+FINALIDADE\s+(RESIDENCIAL|COMERCIAL)/i);
+    if (m) r.finalidade = /comerc|n[ãa]o/i.test(m[1]) ? "COMERCIAL" : "RESIDENCIAL";
+    if (resumo) {
+      if (resumo.numero) r.numero = resumo.numero;
+      if (resumo.endereco) r.endereco = resumo.endereco;
+      if (resumo.inicio) { r.dataInicio = resumo.inicio; r.dataContrato = resumo.inicio; }
+      if (resumo.termino) r.dataFim = resumo.termino;
+      if (resumo.valor) r.valorAluguel = resumo.valor;
+      if (resumo.prazo) r.prazoMeses = resumo.prazo;
+      if (resumo.garantia) r.garantia = resumo.garantia;
+      if (resumo.avisoData) { r.avisos.push(resumo.avisoData); r.dataContrato = ""; r.dataInicio = ""; }
+    } else if (gen.dataInicio) { r.dataContrato = gen.dataInicio; }
+    if (!r.garantia && resumo && resumo.pessoas.some(x => x.papel === "fiadores")) r.garantia = "Fiança";
+
+    // ---- reconciliação: papel do resumo + qualificação completa da Cláusula Primeira ----
+    const qual = gen.pessoas.slice();
+    const usados = new Set();
+    const acha = (rp) => {
+      const d = soDig(rp.doc), n = normNome(rp.nome);
+      let k = qual.findIndex((q, i) => !usados.has(i) && (soDig(q.pessoa.isPJ ? q.pessoa.cnpj : q.pessoa.cpf) === d || (q.pessoa.isPJ && (q.pessoa.reps || []).some(x => soDig(x.cpf) === d))));
+      if (k < 0) k = qual.findIndex((q, i) => !usados.has(i) && n && (normNome(q.pessoa.isPJ ? q.pessoa.razaoSocial : q.pessoa.nome) === n
+        || (q.pessoa.isPJ && (q.pessoa.reps || []).some(x => normNome(x.nome) === n))));
+      return k;
+    };
+    const add = (papel, p) => { r.pessoas.push({ papel, pessoa: p }); if (r[papel]) r[papel].push(p); };
+    if (resumo && resumo.pessoas.length) {
+      for (const rp of resumo.pessoas) {
+        const k = acha(rp);
+        if (k >= 0) {
+          usados.add(k);
+          const p = qual[k].pessoa;
+          const docQ = p.isPJ ? p.cnpj : p.cpf;
+          if (!p.isPJ && soDig(docQ) !== soDig(rp.doc) && !(p.reps || []).length) {
+            const okQ = Validacao.cpf(docQ), okR = Validacao.cpf(rp.doc);
+            r.avisos.push(`CPF de ${p.nome} diferente no contrato: resumo ${rp.doc}, qualificação ${docQ}. Usei ${okQ || !okR ? docQ : rp.doc}${okQ && okR ? " — confira qual é o correto" : " (o outro é inválido)"}.`);
+            if (!okQ && okR) p.cpf = rp.doc;
+          }
+          add(rp.papel, p);
+        } else {
+          // só consta no resumo: nome + documento
+          add(rp.papel, rp.pj ? { isPJ: true, razaoSocial: rp.nome, cnpj: rp.doc, enderecoSede: "", reps: [] }
+            : { isPJ: false, genero: rp.genero, nome: rp.nome, nacionalidade: "", estadoCivil: "", profissao: "", rg: "", cpf: rp.doc, cidadeUf: "" });
+          if (rp.papel !== "fiadores") r.avisos.push(`${rp.nome}: só encontrei nome e CPF/CNPJ (no resumo) — complete a qualificação.`);
+        }
+      }
+      qual.forEach((q, i) => { if (!usados.has(i) && q.papel) add(q.papel, q.pessoa); });
+    } else {
+      gen.pessoas.forEach(q => add(q.papel, q.pessoa));
+    }
+    if (!r.locadores.length) r.avisos.push("Não encontrei os locadores — confira ou cole a qualificação.");
+    if (!r.locatarios.length) r.avisos.push("Não encontrei os locatários — confira ou cole a qualificação.");
+    if (!r.endereco) r.avisos.push("Não encontrei o endereço do imóvel.");
+    if (!r.numero) r.avisos.push("Não encontrei o número do contrato.");
+    return r;
+  }
+
+  /**
+   * Junta os trechos de texto do pdf.js usando a posição de cada trecho:
+   * sem espaço quando o trecho seguinte "encosta" no anterior (palavras
+   * quebradas em pedaços), espaço quando há distância, quebra de linha
+   * quando muda a altura (y).
+   */
+  function juntarItensPdf(items) {
+    // 1) posição de cada trecho (ignora texto girado, ex.: "Página" na margem)
+    const its = [];
+    for (const it of items) {
+      const s = it.str || "";
+      if (!s.trim()) continue;
+      const tr = it.transform || [1, 0, 0, 1, 0, 0];
+      if (Math.abs(tr[1]) > 0.01 || Math.abs(tr[2]) > 0.01) continue;
+      const h = Math.abs(it.height || tr[3] || 10) || 10;
+      its.push({ s, x: tr[4], y: tr[5], w: it.width || 0, h });
+    }
+    // 2) agrupa em linhas pela altura (y), de cima para baixo; dentro da linha, da esquerda para a direita
+    its.sort((a, b) => b.y - a.y || a.x - b.x);
+    const linhas = [];
+    for (const it of its) {
+      const L = linhas[linhas.length - 1];
+      if (L && Math.abs(L.y - it.y) <= Math.max(1.5, Math.min(L.h, it.h) * 0.45)) L.itens.push(it);
+      else linhas.push({ y: it.y, h: it.h, itens: [it] });
+    }
+    // 3) monta o texto: espaço só quando há distância entre os trechos
+    return linhas.map(L => {
+      L.itens.sort((a, b) => a.x - b.x);
+      let out = "", fimX = null;
+      for (const it of L.itens) {
+        if (fimX !== null && it.x - fimX > it.h * 0.18 && !/\s$/.test(out) && !/^\s/.test(it.s)) out += " ";
+        out += it.s;
+        fimX = Math.max(fimX ?? -1e9, it.x + it.w);
+      }
+      return out;
+    }).join("\n");
+  }
+
+  /** Extrai texto de um .docx (usa o leitor de zip próprio). */
+  async function textoDocx(buffer) {
+    const f = new PizZip(buffer).file("word/document.xml");
+    if (!f) throw new Error("arquivo Word sem conteúdo (document.xml)");
+    const xml = f.asText();
+    const paras = xml.match(/<w:p[ >][\s\S]*?<\/w:p>/g) || [];
+    return paras.map(p => {
+      let s = "";
+      const re = /<w:t(?: [^>]*)?>([^<]*)<\/w:t>|<w:(tab|br)\/>/g;
+      let m;
+      while ((m = re.exec(p))) s += m[1] !== undefined ? m[1] : " ";
+      return s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, "&");
+    }).join("\n");
+  }
+
+  /** Extrai texto de um PDF com o pdf.js (carregado sob demanda). */
+  async function textoPdf(buffer) {
+    await carregarPdfJs();
+    const pdf = await window.pdfjsLib.getDocument({ data: new Uint8Array(buffer) }).promise;
+    let out = "";
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const tc = await page.getTextContent();
+      out += juntarItensPdf(tc.items) + "\n";
+    }
+    return out;
+  }
+  let pdfPromise = null;
+  function carregarPdfJs() {
+    if (window.pdfjsLib) return Promise.resolve();
+    if (pdfPromise) return pdfPromise;
+    const base = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
+    const load = (src) => new Promise((ok, err) => {
+      const s = document.createElement("script"); s.src = src; s.onload = ok;
+      s.onerror = () => err(new Error("não foi possível carregar o leitor de PDF (verifique a internet)"));
+      document.head.appendChild(s);
+    });
+    pdfPromise = load(base + "pdf.min.js").then(() => load(base + "pdf.worker.min.js")).then(() => {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = base + "pdf.worker.min.js";
+    }).catch(e => { pdfPromise = null; throw e; });
+    return pdfPromise;
+  }
+
+  /** Lê um arquivo (File) e devolve o texto. */
+  async function textoArquivo(file) {
+    const nome = (file.name || "").toLowerCase();
+    const buf = await file.arrayBuffer();
+    if (nome.endsWith(".docx")) return textoDocx(buf);
+    if (nome.endsWith(".pdf")) return textoPdf(buf);
+    if (nome.endsWith(".txt")) return new TextDecoder().decode(buf);
+    if (nome.endsWith(".doc")) throw new Error("arquivos .doc (Word antigo) não podem ser lidos pelo navegador. Abra no Word e salve como .docx ou PDF");
+    throw new Error("formato não suportado. Use .docx, .pdf ou .txt");
+  }
+  return { extrair, extrairGenerico, lerResumo, juntarItensPdf, normalizarTexto, textoArquivo, textoDocx, dataBarraIso, dataExtensoIso };
+})();
+
+if (typeof module !== "undefined") module.exports = { Qualificacao, Contrato };
+
+  </script>
+
+  <script>
+/* =========================================================================
+   IMPORTAR.JS — leitura do contrato original (PDF/Word/texto colado) e
+   preenchimento automático dos campos. Usa o mesmo leitor (parser) do
+   Gerador de Desocupação. Tudo passa por uma tela de revisão antes de aplicar.
+   ========================================================================= */
+
+const ICONE_UPLOAD = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>';
+const ICONE_COLAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M16 5h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2"/><path d="M9 13h6M9 17h4"/></svg>';
+
+const escImp = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+function elImp(tag, attrs, html) {
+  const e = document.createElement(tag);
+  Object.entries(attrs || {}).forEach(([k, v]) => e.setAttribute(k, v));
+  if (html != null) e.innerHTML = html;
+  return e;
+}
+function ligarDrop(zona, aoSoltar) {
+  ["dragenter", "dragover"].forEach(ev => zona.addEventListener(ev, (e) => { e.preventDefault(); zona.classList.add("over"); }));
+  ["dragleave", "drop"].forEach(ev => zona.addEventListener(ev, (e) => { e.preventDefault(); zona.classList.remove("over"); }));
+  zona.addEventListener("drop", (e) => { const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; if (f) aoSoltar(f); });
+}
+
+/** Converte a pessoa lida pelo parser para o formato dos campos deste gerador. */
+function pessoaParaAditivos(p) {
+  if (p.isPJ) {
+    const r = (p.reps && p.reps[0]) || {};
+    return Object.assign(novaPessoaPJ(), {
+      razaoSocial: p.razaoSocial || "", cnpj: p.cnpj || "", enderecoSede: p.enderecoSede || "",
+      repGenero: r.genero || "M", repNome: r.nome || "", repNacionalidade: r.nacionalidade || (r.genero === "F" ? "Brasileira" : "Brasileiro"),
+      repEstadoCivil: r.estadoCivil || "", repProfissao: r.profissao || "", repRg: r.rg || "", repCpf: r.cpf || "", repCidadeUf: r.cidadeUf || "",
+    });
+  }
+  return Object.assign(novaPessoaPF(), {
+    genero: p.genero || "M", nome: p.nome || "", nacionalidade: p.nacionalidade || (p.genero === "F" ? "Brasileira" : "Brasileiro"),
+    estadoCivil: p.estadoCivil || "", profissao: p.profissao || "", rg: p.rg || "", cpf: p.cpf || "", cidadeUf: p.cidadeUf || "",
+  });
+}
+
+/** Garantia escrita no contrato → opção da lista GARANTIAS. */
+function garantiaDoContrato(txt) {
+  const g = String(txt || "");
+  if (!g.trim()) return null;
+  if (/seguro/i.test(g)) return { tipo: "seguro" };
+  if (/cau[cç][aã]o/i.test(g)) return { tipo: "caucao" };
+  if (/t[ií]tulo|capitaliza/i.test(g)) return { tipo: "titulo" };
+  if (/fian[cç]a|fiador/i.test(g)) return { tipo: "fianca" };
+  return { tipo: "outros", outro: g.trim().toUpperCase() };
+}
+const ROTULO_GARANTIA = (g) => g ? (GARANTIAS.find(x => x.value === g.tipo) || {}).label + (g.outro ? " — " + g.outro : "") : "";
+
+function isoMaisUmDia(iso) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || "");
+  if (!m) return "";
+  const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3] + 1));
+  return d.toISOString().slice(0, 10);
+}
+
+/* ---------------- Colar qualificação (nas etapas de pessoas) ---------------- */
+const ColarUI = {
+  painel(lista, rotulo, redesenhar) {
+    const box = elImp("div", { class: "colar-box" });
+    const abrir = elImp("button", { type: "button", class: "btn btn-sm colar-btn" }, `${ICONE_COLAR}<span>Colar qualificação de uma vez</span>`);
+    const area = elImp("div", { class: "colar-area", style: "display:none" });
+    area.innerHTML = `<p class="hint" style="margin:0 0 8px">Cole o trecho com uma ou mais pessoas (ex.: "Sra. Ângela ..., Brasileira, Casada, ..., RG nº ..., CPF/MF nº ..., e seu esposo Sr. ..."). Empresas com representante também são reconhecidas.</p>
+      <textarea rows="4" placeholder="Cole aqui o texto..."></textarea>
+      <div class="colar-res"></div>
+      <div class="colar-acoes"><button type="button" class="btn btn-sm btn-primary" data-ler>Reconhecer</button><button type="button" class="btn btn-sm btn-ghost" data-fechar>Cancelar</button></div>`;
+    const fechar = () => { area.style.display = "none"; abrir.style.display = ""; };
+    abrir.addEventListener("click", () => { area.style.display = ""; abrir.style.display = "none"; area.querySelector("textarea").focus(); });
+    area.querySelector("[data-fechar]").addEventListener("click", fechar);
+    area.querySelector("[data-ler]").addEventListener("click", () => {
+      const res = area.querySelector(".colar-res");
+      const pessoas = Qualificacao.ler(area.querySelector("textarea").value);
+      if (!pessoas.length) { res.innerHTML = '<p class="aviso-imp">Não reconheci nenhuma pessoa. Confira se o texto tem nome e CPF/CNPJ.</p>'; return; }
+      res.innerHTML = `<p class="hint" style="margin:10px 0 6px"><strong>${pessoas.length} reconhecida(s):</strong></p>` + ImportUI.resumoPessoas(pessoas);
+      const acoes = area.querySelector(".colar-acoes");
+      acoes.innerHTML = "";
+      const aplicar = (substituir) => {
+        const novos = pessoas.map(pessoaParaAditivos);
+        if (substituir) lista.splice(0, lista.length, ...novos);
+        else { lista.filter(p => !(p.nome || p.razaoSocial)).forEach(v => lista.splice(lista.indexOf(v), 1)); lista.push(...novos); }
+        redesenhar(); UI.atualizarPreview(); UI.autosaveDebounced();
+        UI.toast(`${novos.length} ${rotulo.toLowerCase()}(es) preenchido(s). Confira os dados.`, "success");
+      };
+      const b1 = elImp("button", { type: "button", class: "btn btn-sm btn-primary" }, "Substituir a lista");
+      const b2 = elImp("button", { type: "button", class: "btn btn-sm" }, "Adicionar à lista");
+      const b3 = elImp("button", { type: "button", class: "btn btn-sm btn-ghost" }, "Cancelar");
+      b1.addEventListener("click", () => aplicar(true));
+      b2.addEventListener("click", () => aplicar(false));
+      b3.addEventListener("click", () => { fechar(); res.innerHTML = ""; });
+      acoes.append(b1, b2, b3);
+    });
+    box.append(abrir, area);
+    return box;
+  },
+};
+
+/* ---------------- Importar contrato ---------------- */
+const ImportUI = {
+  pendente: null,
+
+  /** Campos de contrato que cada documento usa (só esses aparecem na revisão). */
+  CAMPOS: {
+    aditivo: ["numero", "dataContrato", "finalidade", "endereco"],
+    renovacao: ["numero", "dataContrato", "finalidade", "endereco", "inicioRenovacao", "garantia", "valorAluguel"],
+    carta: ["numero", "endereco"],
+    renuncia: ["numero", "endereco"],
+  },
+  usaFiadores: (tipo) => !tipo || tipo === "aditivo" || tipo === "renovacao",
+
+  painel() {
+    const box = elImp("div", { class: "import-box" });
+    box.innerHTML = `
+      <div class="dropzone" tabindex="0" role="button">
+        ${ICONE_UPLOAD}
+        <div><strong>Importar o contrato original</strong><span>Arraste o arquivo aqui ou clique — PDF ou Word (.docx). Os dados encontrados aparecem para revisão antes de preencher.</span></div>
+        <input type="file" accept=".pdf,.docx,.txt" style="display:none">
+      </div>
+      <button type="button" class="link-btn" data-colar>ou cole o texto do contrato</button>
+      <div class="colar-contrato" style="display:none"><textarea rows="5" placeholder="Cole aqui o texto do contrato (ou só o resumo e a cláusula das partes)..."></textarea>
+      <div class="colar-acoes"><button type="button" class="btn btn-sm btn-primary" data-ler>Ler texto</button></div></div>`;
+    const zona = box.querySelector(".dropzone"), inp = box.querySelector("input");
+    zona.addEventListener("click", (e) => { if (e.target !== inp) inp.click(); });
+    zona.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); inp.click(); } });
+    inp.addEventListener("change", () => { if (inp.files[0]) this.lerArquivo(inp.files[0]); inp.value = ""; });
+    ligarDrop(zona, (f) => this.lerArquivo(f));
+    box.querySelector("[data-colar]").addEventListener("click", () => { box.querySelector(".colar-contrato").style.display = ""; box.querySelector(".colar-contrato textarea").focus(); });
+    box.querySelector(".colar-contrato [data-ler]").addEventListener("click", () => {
+      const t = box.querySelector(".colar-contrato textarea").value;
+      if (t.trim().length < 30) return UI.toast("Cole um trecho maior do contrato.", "error");
+      this.revisar(Contrato.extrair(t), "texto colado");
+    });
+    return box;
+  },
+
+  async lerArquivo(file) {
+    UI.toast("Lendo " + file.name + "...");
+    try {
+      const txt = await Contrato.textoArquivo(file);
+      if (!txt || txt.replace(/\s+/g, "").length < 50) throw new Error('não encontrei texto no arquivo (PDF escaneado/imagem?). Use "cole o texto do contrato" ou preencha à mão');
+      const r = Contrato.extrair(txt);
+      // nº no nome do arquivo diferente do nº escrito no contrato → avisa
+      const mArq = /(?:^|[^0-9])C\.?\s?(\d{3,5})(?!\d)/i.exec(file.name);
+      if (mArq && r.numero && mArq[1] !== String(r.numero).replace(/\D/g, ""))
+        r.avisos.push(`O nome do arquivo indica o contrato ${mArq[1]}, mas o texto do contrato traz o nº ${r.numero}. Confira qual é o correto.`);
+      if (mArq && !r.numero) r.numero = mArq[1];
+      this.revisar(r, file.name);
+    } catch (e) { console.error(e); UI.toast("Não foi possível ler: " + e.message, "error"); }
+  },
+
+  resumoPessoas(pessoas) {
+    const ok = (v, tipo) => v && Validacao[tipo](v) ? escImp(v) : `<b class="invalido">${escImp(v || "não encontrado")} — ${v ? "inválido, confira" : "preencha"}</b>`;
+    return '<ul class="pessoas-res">' + pessoas.map(p => p.isPJ
+      ? `<li><strong>${escImp(p.razaoSocial)}</strong> — CNPJ ${ok(p.cnpj, "cnpj")}${(p.reps || []).length ? `<br><span>Representante: ${p.reps.map(r => escImp(r.nome) + " (CPF " + ok(r.cpf, "cpf") + ")").join(", ")}</span>` : ""}</li>`
+      : `<li><strong>${escImp(p.nome)}</strong> — CPF ${ok(p.cpf, "cpf")}<br><span>${escImp([p.nacionalidade, p.estadoCivil, p.profissao, p.rg && "RG " + p.rg, p.cidadeUf].filter(Boolean).join(" · "))}</span></li>`).join("") + "</ul>";
+  },
+
+  /** Janela de revisão: confere/edita antes de aplicar. */
+  revisar(r, origem) {
+    const tipo = window.State ? State.tipoDocumento : null;
+    const campos = this.CAMPOS[tipo] || ["numero", "endereco"];
+    const comFiador = this.usaFiadores(tipo);
+    const rotLocador = tipo === "renuncia" ? "Proprietário(a)" : "Locador(a)";
+    const papeis = [{ v: "locadores", l: rotLocador }, { v: "locatarios", l: "Locatário(a)" }]
+      .concat(comFiador ? [{ v: "fiadores", l: "Fiador(a)" }] : []).concat([{ v: "", l: "Ignorar" }]);
+    const papelInicial = (x) => (x.papel === "fiadores" && !comFiador) ? "" : (["locadores", "locatarios", "fiadores"].includes(x.papel) ? x.papel : "");
+    const ocultos = r.pessoas.filter(x => x.papel === "fiadores" && !comFiador).length;
+    const visiveis = r.pessoas.map((x, i) => ({ x, i })).filter(({ x }) => !(x.papel === "fiadores" && !comFiador));
+    const g = garantiaDoContrato(r.garantia);
+    const DEF = {
+      numero: ["Nº do contrato", r.numero],
+      dataContrato: ["Data do contrato (início)", r.dataContrato, "date"],
+      finalidade: ["Finalidade", r.finalidade, "select"],
+      endereco: ["Endereço do imóvel", r.endereco, "textarea"],
+      inicioRenovacao: ["Início da renovação", isoMaisUmDia(r.dataFim), "date", "dia seguinte ao término do contrato" + (r.dataFim ? " (" + r.dataFim.split("-").reverse().join("/") + ")" : "")],
+      garantia: ["Garantia", g ? ROTULO_GARANTIA(g) : "", "fixo"],
+      valorAluguel: ["Valor atual do aluguel", r.valorAluguel, "text", "valor do contrato original — se já houve reajuste, ajuste", false],
+    };
+    // PJ com mais de um representante: o modelo usa um só
+    const avisos = r.avisos.slice();
+    r.pessoas.forEach(x => { if (x.pessoa.isPJ && (x.pessoa.reps || []).length > 1) avisos.push(`${x.pessoa.razaoSocial}: o contrato traz ${x.pessoa.reps.length} representantes; o documento usa um — foi aplicado ${x.pessoa.reps[0].nome}.`); });
+    if (!campos.includes("dataContrato")) for (let k = avisos.length - 1; k >= 0; k--) if (/data de início/i.test(avisos[k])) avisos.splice(k, 1);
+
+    const ov = elImp("div", { class: "modal-ov" });
+    const m = elImp("div", { class: "modal", role: "dialog", "aria-modal": "true" });
+    m.innerHTML = `
+      <div class="modal-head"><h3>Dados encontrados no contrato</h3><button type="button" class="btn btn-ghost btn-sm" data-x aria-label="Fechar">✕</button></div>
+      <p class="hint" style="margin:0 0 14px">Origem: ${escImp(origem)}. Confira e ajuste — só os itens marcados serão aplicados.</p>
+      ${avisos.length ? `<div class="aviso-imp">${avisos.map(escImp).join("<br>")}</div>` : ""}
+      <div class="rev-campos">
+        ${campos.map(k => {
+          const [l, v, t, dica, marcar] = DEF[k];
+          let input;
+          if (t === "select") input = `<select data-val="${k}"><option value="RESIDENCIAL" ${v !== "COMERCIAL" ? "selected" : ""}>Residencial</option><option value="COMERCIAL" ${v === "COMERCIAL" ? "selected" : ""}>Comercial</option></select>`;
+          else if (t === "textarea") input = `<textarea rows="2" data-val="${k}">${escImp(v || "")}</textarea>`;
+          else if (t === "fixo") input = `<span class="rev-fixo" data-val="${k}">${escImp(v || "não encontrada")}</span>`;
+          else input = `<input type="${t || "text"}" data-val="${k}" value="${escImp(v || "")}">`;
+          const chk = v && marcar !== false ? "checked" : "";
+          return `<label class="rev-campo"><input type="checkbox" data-use="${k}" ${chk} ${t === "fixo" && !v ? "disabled" : ""}><span>${l}${dica ? `<small>${escImp(dica)}</small>` : ""}</span>${input}</label>`;
+        }).join("")}
+      </div>
+      <h4>Pessoas encontradas (${visiveis.length})</h4>
+      ${ocultos ? `<p class="hint" style="margin:-4px 0 10px">${ocultos} fiador(es) do contrato não aparecem aqui — este documento não usa fiadores.</p>` : ""}
+      ${visiveis.length ? visiveis.map(({ x, i }) => `
+        <div class="rev-pessoa">
+          <div class="rev-info">${this.resumoPessoas([x.pessoa])}</div>
+          <select data-papel="${i}">${papeis.map(p => `<option value="${p.v}" ${p.v === papelInicial(x) ? "selected" : ""}>${p.l}</option>`).join("")}</select>
+        </div>`).join("") : '<p class="hint">Nenhuma pessoa com CPF/CNPJ encontrada. Use "Colar qualificação de uma vez" nas etapas de pessoas.</p>'}
+      <div class="modal-foot"><button type="button" class="btn btn-ghost" data-x>Cancelar</button><button type="button" class="btn btn-primary" data-aplicar>Aplicar dados</button></div>`;
+    ov.appendChild(m); document.body.appendChild(ov);
+    const fechar = () => { ov.remove(); document.removeEventListener("keydown", esc); };
+    const esc = (e) => { if (e.key === "Escape") fechar(); };
+    document.addEventListener("keydown", esc);
+    m.querySelectorAll("[data-x]").forEach(b => b.addEventListener("click", fechar));
+    m.querySelectorAll("input[data-val],textarea[data-val]").forEach(inp => inp.addEventListener("input", () => { m.querySelector(`[data-use="${inp.dataset.val}"]`).checked = !!inp.value.trim(); }));
+    ov.addEventListener("click", (e) => { if (e.target === ov) fechar(); });
+    m.querySelector("[data-aplicar]").addEventListener("click", () => {
+      // exibidos: valem as marcações; ocultos: seguem o que foi lido
+      const lido = { numero: r.numero, dataContrato: r.dataContrato, finalidade: r.finalidade, endereco: r.endereco, inicioRenovacao: isoMaisUmDia(r.dataFim), garantia: g, valorAluguel: null };
+      const val = (k) => {
+        if (!campos.includes(k)) return lido[k] || null;
+        if (!m.querySelector(`[data-use="${k}"]`).checked) return null;
+        if (k === "garantia") return g;
+        return m.querySelector(`[data-val="${k}"]`).value.trim() || null;
+      };
+      const imp = { locadores: [], locatarios: [], fiadores: [], temFiadores: comFiador };
+      Object.keys(DEF).forEach(k => imp[k] = val(k));
+      m.querySelectorAll("[data-papel]").forEach(s => { const x = r.pessoas[+s.dataset.papel]; if (imp[s.value]) imp[s.value].push(pessoaParaAditivos(x.pessoa)); });
+      if (!comFiador) r.pessoas.filter(x => x.papel === "fiadores").forEach(x => imp.fiadores.push(pessoaParaAditivos(x.pessoa)));
+      fechar();
+      if (window.State) {
+        this.aplicar(State.dados, imp);
+        UI.renderWizard(); UI.autosaveDebounced();
+        UI.toast("Dados aplicados. Confira cada etapa antes de gerar.", "success");
+      } else {
+        this.pendente = imp;
+        UI.renderTelaSelecao();
+        UI.toast("Dados prontos! Agora escolha o documento.", "success");
+      }
+    });
+  },
+
+  aplicar(d, imp) {
+    if (imp.numero) d.NUMERO_CONTRATO = String(imp.numero).replace(/^C\.?\s*/i, "");
+    if (imp.dataContrato) d.DATA_CONTRATO = imp.dataContrato;
+    if (imp.endereco) d.ENDERECO_IMOVEL = imp.endereco;
+    if (imp.finalidade) d.FINALIDADE_LOCACAO = /COMERC/i.test(imp.finalidade) ? "COMERCIAL" : "RESIDENCIAL";
+    const tipo = d.tipoDocumento;
+    if (tipo === "renovacao") {
+      if (imp.inicioRenovacao) d.DATA_INICIO_RENOVACAO = imp.inicioRenovacao;
+      if (imp.valorAluguel) d.VALOR_ATUAL = imp.valorAluguel;
+      if (imp.garantia) { d.GARANTIA_TIPO = imp.garantia.tipo; if (imp.garantia.outro) d.GARANTIA_OUTRO = imp.garantia.outro; }
+    }
+    const copia = (l) => l.map(p => JSON.parse(JSON.stringify(p)));
+    if (imp.locadores.length) d.locadores = copia(imp.locadores);
+    if (imp.locatarios.length) d.locatarios = copia(imp.locatarios);
+    if (this.usaFiadores(tipo) && imp.fiadores.length) d.fiadores = copia(imp.fiadores);
+  },
+};
+
+  </script>
+
+  <script>
+/* =========================================================================
    UI.JS — seleção de tipo de documento, stepper, navegação, prévia,
    exportação e tema claro/escuro.
    ========================================================================= */
@@ -2399,7 +3238,7 @@ const UI = {
         <div class="icon">${t.icone}</div>
         <h3>${t.nome}</h3>
         <p>${t.descricaoCurta}</p>
-        <span class="go">Começar ${ICONES.seta}</span>
+        <span class="go">${ImportUI.pendente ? "Usar dados importados" : "Começar"} ${ICONES.seta}</span>
       </button>
     `).join("");
 
@@ -2410,11 +3249,12 @@ const UI = {
           <div class="hero-content">
             <div class="hero-kicker"><img src="${BRAND_IMG.logoM}" alt="">Moraes Imobiliária · Setor de Aditivos</div>
             <h1>Gerador de Documentos<br>Contratuais</h1>
-            <p>Selecione o tipo de documento para começar. O sistema gera um arquivo Word (.docx) no padrão oficial da imobiliária, pronto para assinatura.</p>
+            <p>Importe o contrato original (opcional) e os dados das partes são preenchidos automaticamente. Depois escolha o documento: o sistema gera um arquivo Word (.docx) no padrão oficial da imobiliária, pronto para assinatura.</p>
           </div>
           <img class="hero-bear" src="${BRAND_IMG.mascote}" alt="Mascote Moraes">
         </section>
         ${this._bannerRetomar()}
+        ${this._bannerImportacao()}
         <h2 class="section-title">Escolha o documento</h2>
         <div class="model-grid">${grid}</div>
         <p class="footer-note"><img src="${BRAND_IMG.selo43}" alt="">Moraes Imobiliária • Todos os dados ficam salvos apenas neste navegador.</p>
@@ -2424,6 +3264,9 @@ const UI = {
     root.querySelectorAll(".model-card").forEach(btn => {
       btn.addEventListener("click", () => this.selecionarTipo(btn.dataset.tipo));
     });
+    const hi = root.querySelector("#homeImport");
+    if (hi) hi.appendChild(ImportUI.painel());
+    root.querySelector("#btnLimparImp")?.addEventListener("click", () => { ImportUI.pendente = null; this.renderTelaSelecao(); });
     const salvo = this._salvoValido();
     root.querySelector("#btnRetomar")?.addEventListener("click", () => {
       this.selecionarTipo(salvo.tipoDocumento, salvo.dados, salvo.etapaAtual);
@@ -2438,6 +3281,19 @@ const UI = {
   _salvoValido() {
     const salvo = Storage.carregar();
     return (salvo && salvo.tipoDocumento && TIPOS_DOCUMENTO[salvo.tipoDocumento] && salvo.dados) ? salvo : null;
+  },
+
+  /** Importação do contrato na tela inicial (ou faixa com os dados já importados). */
+  _bannerImportacao() {
+    const imp = ImportUI.pendente;
+    if (!imp) return `<div id="homeImport"></div>`;
+    const resumo = `${imp.numero ? "Contrato " + PreviewBuilder._esc(imp.numero) + " · " : ""}${imp.locadores.length} locador(es) · ${imp.locatarios.length} locatário(s)${imp.fiadores.length ? " · " + imp.fiadores.length + " fiador(es)" : ""}`;
+    return `
+      <div class="resume-bar imp">
+        <span class="ic">${ICONE_UPLOAD}</span>
+        <div class="txt"><strong>Contrato importado — escolha o documento</strong><span>${resumo}</span></div>
+        <div class="acts"><button class="btn btn-sm btn-ghost btn-danger-ghost" id="btnLimparImp">Descartar importação</button></div>
+      </div>`;
   },
 
   /** Faixa "Continuar de onde parou" quando há um preenchimento salvo neste navegador. */
@@ -2463,6 +3319,7 @@ const UI = {
     if (!tipo) return;
     // Completa campos que possam faltar em preenchimentos salvos por versões anteriores
     const dados = Object.assign(dadosPadrao(tipoKey), dadosIniciais || {}, { tipoDocumento: tipoKey });
+    if (!dadosIniciais && ImportUI.pendente) { ImportUI.aplicar(dados, ImportUI.pendente); ImportUI.pendente = null; }
     const etapa = Math.min(Math.max(parseInt(etapaInicial || 0, 10) || 0, 0), tipo.etapas.length - 1);
     window.State = { tipoDocumento: tipoKey, etapaAtual: etapa, dados };
     this.renderWizard();
